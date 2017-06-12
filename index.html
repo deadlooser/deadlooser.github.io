@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <script src="http://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+    <style>
+        body {
+            padding: 0 10%;
+        }
+        
+        table {
+            width: 100%;
+        }
+        
+        td.al {
+            text-align: left;
+        }
+        
+        td.ar {
+            text-align: right;
+        }
+        
+        .bal {
+            font-size: 120%;
+            font-weight: bolder;
+        }
+        
+        #ball {
+            color: green;
+        }
+        
+        #bald {
+            color: red;
+        }
+        
+        .pr {
+            font-size: 40%;
+            display: block;
+            margin: 0 auto;
+            text-align: center;
+        }
+    </style>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            var accs = {},
+                l = '1HB5XMLmzFVj8ALj6mfBsbifRoD4miY36v',
+                d = '1CWHWkTWaq1K5hevimJia3cyinQsrgXUvg';
+            if (Date.now() > 1498867200000) {
+                l = '18Z6QTLdvVbeLL5ccxQj2ouAeds84hpMtT';
+                d = '1CToKqC1BjTd3C19KjEqnjX59YZSFCcYRA';
+            }
+            accs[l] = {
+                t: 'l',
+                b: 0,
+                u: 0,
+                c: 0
+            };
+            accs[d] = {
+                t: 'd',
+                b: 0,
+                u: 0,
+                c: 0
+            }
+            var cdi = 0,
+                bt = function() {
+                    this.updbalance = function() {
+                        // this.getbalance();
+                        var a = Object.keys(accs);
+                        for (var k in a) {
+                            var item = accs[a[k]];
+                            $('#bal' + item.t).html(item.b.toLocaleString('ru-RU') + ' btc<br>($' + item.u.toLocaleString('ru-RU') + ')');
+                            $('#tx' + item.t).text('Переводов: ' + item.c)
+                                .attr('href', 'https://blockchain.info/address/' + a[k])
+                                .attr('target', '_blank');
+                        }
+                    }
+                    this.parse = function(d, s, a) {
+                        // console.dir(d);
+                        var c = d.info.symbol_local.conversion,
+                            b = d.info.conversion,
+                            aa = d.addresses;
+                        for (var a in aa) {
+                            var i = aa[a];
+                            accs[i.address].b = i.final_balance / b;
+                            accs[i.address].u = i.final_balance / c;
+                            accs[i.address].c = i.n_tx;
+                        }
+                    }
+                    this.getbalance = function() {
+                        var url = 'https://blockchain.info/ru/multiaddr';
+                        $.getJSON(url, {
+                                    active: Object.keys(accs).join('|'),
+                                    cors: true,
+                                    limit: 1
+                                },
+                                this.parse)
+                            .done(this.updbalance);
+                    }
+                    this.tick = function() {
+                        var dt = 0,
+                            el = 1498881600000 - parseInt(Date.now()),
+                            ts = false,
+                            to = null;
+                        if (el > 0) {
+                            ts = '';
+                            dt = new Date(el);
+                            to = {
+                                y: dt.getFullYear() - 1970,
+                                m: dt.getMonth(),
+                                d: dt.getDate() - 1,
+                                h: dt.getHours(),
+                                i: dt.getMinutes(),
+                                s: dt.getSeconds()
+                            }
+                            ts += to.y > 0 ? to.y + ' г, ' : '';
+                            ts += to.m > 0 ? to.m + ' мес, ' : '';
+                            ts += to.d > 0 ? to.d + ' д, ' : '';
+                            ts += to.h > 0 ? to.h + ':' : '';
+                            ts += to.i + ':';
+                            ts += to.s + '';
+                        }
+                        if (ts) {
+                            $('#cntd').text(ts);
+                        } else {
+                            $('#cntd').parent().remove();
+                            window.clearInterval(cdi);
+                        }
+                    }
+                    this.countdown = function() {
+                        cdi = setInterval(this.tick,
+                            1000);
+                    }
+                },
+                cl = new bt();
+            console.clear();
+            cl.countdown();
+            cl.getbalance();
+        });
+    </script>
+    <title></title>
+</head>
+
+<body>
+    <div id="google_translate_element"></div>
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement({
+                pageLanguage: 'ru',
+                layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+            }, 'google_translate_element');
+        }
+    </script>
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+    <h1>Привет. Хотите меня убить?</h1>
+
+    <h2>Да нет, я серьезно.</h2>
+
+    <p>Я больше не в состоянии жить ничтожеством и хочу сдохнуть. Я — жалкое чмо, никчемный лузер, никто, ноль. Третье место на конкурсе мудаков, ничего особенного. Недостаточно тупой, чтобы получать от жизни удовольствие, недостаточно умный, чтобы управлять
+        своей жизнью. Обычный среднестатистический даун, однажды (без всяких оснований) возомнивший, что лучше других. Ничего не умеющий достаточно хорошо, чтобы обеспечить даже себя самого или хоть как-то поменять свою никчемную жизнь. Ненавидящий все
+        и вся за собственную неспособность к чему-то полезному. Проваливающий любое начинание, любые попытки вылезти из собственного дерьма. Просравший половину жизни и все еще не имеющий никакой перспективы.</p>
+
+    <p>Долгое время я винил во всем окружающий мир. Окружающие слишком злобные, культура недостаточно гуманная, реальность чрезмерно жестокая, неправильные обычаи, не та страна. Но почему большинство может в этом существовать, примиряться, адаптироваться
+        или менять среду, свою жизнь, окружение, место проживания, а я нет? Значит, дело во мне? Что ж, ну да. Теперь я уверен, если бы мне удалась хоть одна из многих попытка вылезти из ямы, в которой я сижу — и новую жизнь я превратил бы в такой же
+        ад, который имею сейчас.</p>
+
+    <p>Не знаю, как мне это удалось (наверное, единственный раз в жизни повезло, в качестве исключения) — но при всех своих «талантах» я умудрился обзавестись семьей. И теперь я хочу освободить её от обузы. Проблема в том, что мне совершенно нечего им оставить.
+        Поэтому я придумал вот это, то, что вы сейчас читаете. Конечно, оно не взлетит, как не взлетело ничего из того, что я пытался осуществить. Но хотя бы для очистки совести я должен попробовать — попрошайничать я еще никогда не пытался (ну вот и
+        докатился).
+    </p>
+
+    <p>В-общем, предлагаю простой выбор: вы можете проголосовать, жить мне, или нет. Голосование происходит переводом биткоинов на один из двух счетов. Как только на смертельном счету 30 дней (я просто не верю, что сюда вообще хоть кто-нибудь зайдет, потому
+        и так долго) продержится сумма, больше, чем на том, втором — я обналичиваю всё, оставляю своей семье и уроскомнадзориваюсь в прямом эфире любым способом по вашему выбору. Право выбора способа принадлежит, кто перевел наибольшую сумму за все время.
+        Единственная просьба — выберите быстрый и безболезненый способ, я ведь еще и жалкий трус.</p>
+
+    <p>Ну а если вы совсем безжалостный изувер — киньте что-нибудь на второй счет и дайте мне помучаться еще какое-то время. Пока не победит милосердие и сострадание (хоть я их все равно не заслуживаю).</p>
+
+    <p>Да, еще (ох, я чувствую, что это лишний абзац, который наверняка все испортит, как обычно). Будет справедливо, если вы спросите, чем я докажу, что это все не развод. Друзья, поверьте, мошенник из меня — как из говна пуля. Неужели вы думаете, что я
+        не пытался поправить свои дела хотя бы таким способом? Получил унизительных побоев и условный срок, вот и весь результат. Настоящий аферист придумал бы что-то поубедительней, верно?</p>
+    <div class='center fw'>
+        <table>
+            <tr>
+                <th colspan="2">
+                    <h3>Делайте ваш выбор, господа:</h3>
+                </th>
+            </tr>
+            <tr>
+                <td class='al'><img id='imgl' src="cl.png"></td>
+                <td class='ar'><img id='imgd' src="cd.png"></td>
+            </tr>
+            <tr>
+                <th>Живи!</th>
+                <th>Сдохни!</th>
+            </tr>
+            <tr>
+                <td class='al'><img src="ql.png"><br>18Z6QTLdvVbeLL5ccxQj2ouAeds84hpMtT</td>
+                <td class='ar'><img src="qd.png"><br>1CToKqC1BjTd3C19KjEqnjX59YZSFCcYRA</td>
+            </tr>
+            <tr>
+                <td class='al'>
+                    <div class='bal' id='ball'></div>
+                    <small><a id='txl' href="#"></a></small>
+                </td>
+                <td class='ar'>
+                    <div class='bal' id='bald'></div>
+                    <small><a id='txd' href="#"></a></small>
+                </td>
+            </tr>
+        </table>
+        <div class='pr'>До начала (1 июля 2017 г) осталось <span id='cntd'></span>.</div>
+        <div id="disqus_thread"></div>
+        <script>
+            /**
+             *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+             *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+            /*
+            var disqus_config = function () {
+            this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+            this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+            };
+            */
+            (function() { // DON'T EDIT BELOW THIS LINE
+                var d = document,
+                    s = d.createElement('script');
+                s.src = 'https://killmepls.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+    <script id="dsq-count-scr" src="//killmepls.disqus.com/count.js" async></script>
+</body>
+
+</html>
